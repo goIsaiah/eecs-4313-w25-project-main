@@ -24,6 +24,7 @@ import org.mockito.Mockito;
 
 public class ThumbnailatorUtilsTest {
 
+    // EQUIVALENCE CLASS TESTING used to check valid output and null output
     @Test
     public void getSupportedOutputFormatsTest1() {
         List<String> formats = ThumbnailatorUtils.getSupportedOutputFormats();
@@ -33,8 +34,6 @@ public class ThumbnailatorUtilsTest {
         assertTrue(formats.contains("png"));
         assertTrue(formats.contains("bmp"));
     }
-
-    /* Commenting because I'm not sure if this will break code
     @Test
     public void supportedOutputFormatsNoneExist() {
         IIORegistry registry = IIORegistry.getDefaultInstance();
@@ -44,5 +43,4 @@ public class ThumbnailatorUtilsTest {
         assertNotNull(formats);
         assertTrue(formats.isEmpty());
     }
-    */
 }
