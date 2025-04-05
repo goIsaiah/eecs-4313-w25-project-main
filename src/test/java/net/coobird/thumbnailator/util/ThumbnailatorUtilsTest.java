@@ -3,12 +3,15 @@ package net.coobird.thumbnailator.util;
 import static org.junit.Assert.*;
 
 import java.awt.Dimension;
+import java.util.Arrays;
 import java.util.Collections;
 import static org.mockito.Mockito.*;
 
+import java.util.Iterator;
 import java.util.List;
 
 import javax.imageio.ImageIO;
+import javax.imageio.ImageWriter;
 import javax.imageio.spi.IIORegistry;
 import javax.imageio.spi.ImageWriterSpi;
 
@@ -42,5 +45,38 @@ public class ThumbnailatorUtilsTest {
         List<String> formats = ThumbnailatorUtils.getSupportedOutputFormats();
         assertNotNull(formats);
         assertTrue(formats.isEmpty());
+    }
+
+    @Test
+    public void getSupportedOutputFormatTypesTest() {
+
+        assertEquals(Collections.emptyList(), ThumbnailatorUtils.getSupportedOutputFormatTypes(ThumbnailParameter.ORIGINAL_FORMAT));
+
+    }
+
+    @Test
+    public void isSupportedOutputFormatTypeTest() {
+
+//        System.out.println("Showing formats: ");
+//        String[] formats = ImageIO.getWriterFormatNames();
+//        for (String supportedFormat : Arrays.asList(formats)) {
+//            System.out.println(supportedFormat);
+//        }
+//
+//        System.out.println("Showing types: ");
+//        for (String supportedFormat : ThumbnailatorUtils.getSupportedOutputFormatTypes(ThumbnailParameter.DEFAULT_FORMAT_TYPE)) {
+//            System.out.println(supportedFormat);
+//        }
+
+        assertEquals(false, ThumbnailatorUtils.isSupportedOutputFormatType("asm", ThumbnailParameter.DEFAULT_FORMAT_TYPE));
+        assertEquals(true, ThumbnailatorUtils.isSupportedOutputFormatType(ThumbnailParameter.ORIGINAL_FORMAT, ThumbnailParameter.DEFAULT_FORMAT_TYPE));
+        assertEquals(false, ThumbnailatorUtils.isSupportedOutputFormatType(ThumbnailParameter.ORIGINAL_FORMAT, "JPEG"));
+        assertEquals(true, ThumbnailatorUtils.isSupportedOutputFormatType("TIFF", ThumbnailParameter.DEFAULT_FORMAT_TYPE));
+        assertEquals(true, ThumbnailatorUtils.isSupportedOutputFormatType("jpeg", "JPEG"));
+        assertEquals(false, ThumbnailatorUtils.isSupportedOutputFormatType("jpg", ((Integer) (ThumbnailParameter.DEFAULT_IMAGE_TYPE)).toString()));
+
+
+
+
     }
 }
