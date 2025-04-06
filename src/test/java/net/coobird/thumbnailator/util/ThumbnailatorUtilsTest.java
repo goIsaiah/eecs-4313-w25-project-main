@@ -3,9 +3,11 @@ package net.coobird.thumbnailator.util;
 import static org.junit.Assert.*;
 
 import java.awt.Dimension;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 import static org.mockito.Mockito.*;
+import org.mockito.MockedStatic;
 
 import java.util.Iterator;
 import java.util.List;
@@ -14,6 +16,7 @@ import javax.imageio.ImageIO;
 import javax.imageio.ImageWriter;
 import javax.imageio.spi.IIORegistry;
 import javax.imageio.spi.ImageWriterSpi;
+import javax.imageio.ImageWriteParam;
 
 import org.junit.Test;
 
@@ -67,28 +70,12 @@ public class ThumbnailatorUtilsTest {
 
     @Test
     public void isSupportedOutputFormatTypeTest() {
-
-//        System.out.println("Showing formats: ");
-//        String[] formats = ImageIO.getWriterFormatNames();
-//        for (String supportedFormat : Arrays.asList(formats)) {
-//            System.out.println(supportedFormat);
-//        }
-//
-//        System.out.println("Showing types: ");
-//        for (String supportedFormat : ThumbnailatorUtils.getSupportedOutputFormatTypes(ThumbnailParameter.DEFAULT_FORMAT_TYPE)) {
-//            System.out.println(supportedFormat);
-//        }
-
         assertEquals(false, ThumbnailatorUtils.isSupportedOutputFormatType("asm", ThumbnailParameter.DEFAULT_FORMAT_TYPE));
         assertEquals(true, ThumbnailatorUtils.isSupportedOutputFormatType(ThumbnailParameter.ORIGINAL_FORMAT, ThumbnailParameter.DEFAULT_FORMAT_TYPE));
         assertEquals(false, ThumbnailatorUtils.isSupportedOutputFormatType(ThumbnailParameter.ORIGINAL_FORMAT, "JPEG"));
         assertEquals(true, ThumbnailatorUtils.isSupportedOutputFormatType("TIFF", ThumbnailParameter.DEFAULT_FORMAT_TYPE));
         assertEquals(true, ThumbnailatorUtils.isSupportedOutputFormatType("jpeg", "JPEG"));
         assertEquals(false, ThumbnailatorUtils.isSupportedOutputFormatType("jpg", ((Integer) (ThumbnailParameter.DEFAULT_IMAGE_TYPE)).toString()));
-
-
-
-
     }
 
     @Test
@@ -135,15 +122,6 @@ public class ThumbnailatorUtilsTest {
         assertNotNull(types);
     }
 
-//    @Test
-//    public void testGetWriterFormatNamesIsNull() {
-//        IIORegistry registry = IIORegistry.getDefaultInstance();
-//        registry.deregisterAll(ImageWriterSpi.class);
-//        List<String> formats = ThumbnailatorUtils.getSupportedOutputFormats();
-//        assertNotNull(formats);
-//        assertTrue(formats.isEmpty());
-//    }
-
     @Test
     public void privateConstructorTest() throws Exception {
         java.lang.reflect.Constructor<ThumbnailatorUtils> constructor =
@@ -189,5 +167,52 @@ public class ThumbnailatorUtilsTest {
         List<String> types = ThumbnailatorUtils.getSupportedOutputFormatTypes("jpeg");
         assertTrue(types.contains("jpeg"));
         assertEquals(1, types.size());
+    }
+
+    @Test
+    public void supportedOutputFormats_NullArray() {
+        try (MockedStatic<ImageIO> mockedImageIO = Mockito.mockStatic(ImageIO.class)) {
+            mockedImageIO.when(ImageIO::getWriterFormatNames).thenReturn(null);
+            List<String> formats = ThumbnailatorUtils.getSupportedOutputFormats();
+            assertEquals(0, formats.size());
+        }
+    }
+
+    @Test
+    public void supportedOutputFormats_ExceptionReached() throws IOException {
+        ImageWriter mockWriter = mock(ImageWriter.class);
+        ImageWriteParam mockWriteParam = mock(ImageWriteParam.class);
+        when(mockWriteParam.getCompressionTypes()).thenThrow(new UnsupportedOperationException(""));
+        when(mockWriter.getDefaultWriteParam()).thenReturn(mockWriteParam);
+
+        Iterator<ImageWriter> mockIterator = Collections.singletonList(mockWriter).iterator();
+        try (MockedStatic<ImageIO> mockedImageIO = mockStatic(ImageIO.class)) {
+            mockedImageIO.when(() -> ImageIO.getImageWritersByFormatName("placeholderFormat")).thenReturn(mockIterator);
+            List<String> formats = ThumbnailatorUtils.getSupportedOutputFormatTypes("placeholderFormat");
+            assertTrue(formats.isEmpty());
+        }
+    }
+
+    @Test
+    public void supportedOutputFormats_NullTypes() {
+        ImageWriter mockWriter = mock(ImageWriter.class);
+        ImageWriteParam mockWriteParam = mock(ImageWriteParam.class);
+        when(mockWriteParam.getCompressionTypes()).thenReturn(null);
+        when(mockWriter.getDefaultWriteParam()).thenReturn(mockWriteParam);
+
+        Iterator<ImageWriter> mockIterator = Collections.singletonList(mockWriter).iterator();
+        try (MockedStatic<ImageIO> mockedImageIO = mockStatic(ImageIO.class)) {
+            mockedImageIO.when(() -> ImageIO.getImageWritersByFormatName("placeholderFormat")).thenReturn(mockIterator);
+            List<String> formats = ThumbnailatorUtils.getSupportedOutputFormatTypes("placeholderFormat");
+            assertTrue(formats.isEmpty());
+        }
+    }
+
+    @Test
+    public void originalFormat_AND_notDefaultFormatType() {
+        boolean result = ThumbnailatorUtils.isSupportedOutputFormatType(
+                ThumbnailParameter.ORIGINAL_FORMAT, "notDefault"
+        );
+        assertFalse(result);
     }
 }
