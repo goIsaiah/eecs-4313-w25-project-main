@@ -61,4 +61,76 @@ public class BufferedImageBuilderTest {
             assertEquals("Width must be greater than 0.", e.getMessage());
         }
     }
+
+
+    @Test
+    public void buildImage_WithValidDimensionsAndImageType_ShouldSucceed() {
+        BufferedImageBuilder builder = new BufferedImageBuilder(100, 200, BufferedImage.TYPE_INT_RGB);
+        BufferedImage image = builder.build();
+
+        assertEquals(100, image.getWidth());
+        assertEquals(200, image.getHeight());
+        assertEquals(BufferedImage.TYPE_INT_RGB, image.getType());
+    }
+
+    @Test
+    public void buildImage_WithDimensionObject_DefaultType_ShouldSucceed() {
+        Dimension dim = new Dimension(50, 50);
+        BufferedImage image = new BufferedImageBuilder(dim).build();
+
+        assertEquals(50, image.getWidth());
+        assertEquals(50, image.getHeight());
+        assertEquals(BufferedImage.TYPE_INT_ARGB, image.getType());
+    }
+
+    @Test
+    public void buildImage_WithTypeCustom_ShouldSubstituteWithDefault() {
+        Dimension dim = new Dimension(30, 30);
+        BufferedImageBuilder builder = new BufferedImageBuilder(dim, BufferedImage.TYPE_CUSTOM);
+        BufferedImage image = builder.build();
+
+        assertEquals(30, image.getWidth());
+        assertEquals(30, image.getHeight());
+        assertEquals(BufferedImage.TYPE_INT_ARGB, image.getType());
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void buildImage_WithZeroWidth_ShouldThrowException() {
+        new BufferedImageBuilder(0, 100).build();
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void buildImage_WithZeroHeight_ShouldThrowException() {
+        new BufferedImageBuilder(100, 0).build();
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void buildImage_WithNegativeWidth_ShouldThrowException() {
+        new BufferedImageBuilder(-10, 50).build();
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void buildImage_WithNegativeHeight_ShouldThrowException() {
+        new BufferedImageBuilder(50, -10).build();
+    }
+
+    @Test
+    public void buildImage_WithChainedMethods_ShouldSucceed() {
+        BufferedImageBuilder builder = new BufferedImageBuilder(1, 1);
+        builder.width(75).height(60).imageType(BufferedImage.TYPE_INT_RGB);
+        BufferedImage image = builder.build();
+
+        assertEquals(75, image.getWidth());
+        assertEquals(60, image.getHeight());
+        assertEquals(BufferedImage.TYPE_INT_RGB, image.getType());
+    }
+
+    @Test
+    public void buildImage_MinimalValidSize_ShouldSucceed() {
+        BufferedImage image = new BufferedImageBuilder(1, 1).build();
+
+        assertEquals(1, image.getWidth());
+        assertEquals(1, image.getHeight());
+    }
+
 }
