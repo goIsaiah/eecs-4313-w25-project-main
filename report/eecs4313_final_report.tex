@@ -506,7 +506,14 @@
     The test suite effectively covered all public methods and validated expected
         behavior across a wide range of input combinations.
     Code coverage analysis using JaCoCo reported 96\% line and
-        branch coverage.
+        branch coverage, as shown in Figure \ref{fig:thumnailator_utils_100}.
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.95\textwidth]{images/thumbnailator_utils_100.png}
+        \caption[96\% branch coverage for ThumbnailatorUtils.java.]{96\% branch coverage for ThumbnailatorUtils.java.}
+        \label{fig:thumnailator_utils_100}
+    \end{figure}
 
     Upon inspection of the coverage report, the uncovered branch was found in a
         conditional check that is unreachable by design.
@@ -637,8 +644,16 @@
         is already well-structured and easy to test.
     All logic paths are meaningful and reachable, and coverage was easily
         brought to 100\% without requiring mocking or workaround
-        strategies.
+        strategies, as shown in Figure
+        \ref{fig:buffered_image_builder_utils_100}.
     As such, no structural or stylistic changes are recommended.
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.95\textwidth]{images/buffered_image_builder_100.png}
+        \caption[100\% coverage for BufferedImageBuilder.java.]{100\% coverage for BufferedImageBuilder.java.}
+        \label{fig:buffered_image_builder_utils_100}
+    \end{figure}
 
     \section{Use of Generative AI}
     \markboth{}{}
