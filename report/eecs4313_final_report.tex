@@ -355,18 +355,18 @@
         compression types, and null versus non-null return values from the
         underlying ImageIO API.
 
-    In the method \code{getSupportedOutputFormats()}, equivalence classes were
-        defined based on whether \code{ImageIO.getWriterFormatNames()} returns a
-        non-null array of formats or null.
-    Tests validated that in the former case, a list containing expected formats
-        (e.g., "jpg", "png") is returned, and in the latter, the method safely
-        returns an empty list.
-    Similarly, for \code{isSupportedOutputFormat(String format)}, the format
-        string input was tested across classes such as supported formats,
-        unsupported formats, and the special constant\\
-        \code{ThumbnailParameter.ORIGINAL\_FORMAT}.
-    These categories allowed for concise, yet thorough coverage without the need
-        to test every possible string.
+    We applied a robust equivalence class testing approach to ensure that both
+        valid and invalid inputs were covered.
+    For methods that accepted a single input parameter, such as
+        \code{getSupportedOutputFormats()} and
+        \code{isSupportedOutputFormat(String format)}, we used the weak robust
+        method, selecting one valid and one or more invalid values to test
+        boundary and error-handling behavior.
+    In contrast, for methods accepting multiple parameters, such as
+        \code{isSupportedOutputFormatType(String format, String type)}, we
+        applied strong robust equivalence testing to evaluate all combinations
+        of valid and invalid inputs, ensuring thorough interaction coverage
+        between the parameters.
 
     Overall, equivalence class testing was an efficient and logical choice for
         this class because it allowed us to validate functional correctness
@@ -437,17 +437,23 @@
         versus zero or negative values, and supported image types versus special
         or custom types.
 
-    For example, test cases were constructed around the valid class where both
-        width and height are greater than zero, as well as invalid classes
-        where one or both dimensions are zero or negative.
-    Similarly, the image type parameter was tested using common supported types
-        as well as the special \code{TYPE\_CUSTOM}, which should be internally
-        substituted with \code{TYPE\_INT\_ARGB}.
-    By selecting representative values from each equivalence class, we were able
-        to verify the builder's correctness without exhaustive enumeration of
-        all possible integer inputs.
-    This technique provided a highly efficient means to validate both
-        constructor-based and method-chained object creation paths.
+    We used a robust equivalence class testing approach to ensure input
+        validation was thoroughly exercised.
+    For constructors and methods that accepted single inputs, such as
+        \code{width(int)} and \code{height(int)}, we employed weak robust
+        equivalence classes, validating representative valid values
+        (e.g., 1, 100) and invalid ones (e.g., 0, -5).
+    For constructors or methods involving multiple parameters, such as\\
+        \code{(int width, int height, int imageType)}, we used strong robust
+        equivalence testing, evaluating combinations of valid and invalid
+        values across each parameter to ensure defensive programming logic was
+        correctly enforced.
+
+    This approach enabled us to systematically verify the builder's correctness
+        and input validation across both constructor-based and method-chained
+        object creation paths without exhaustive testing of the inputs.
+    The class's tight scope and clear validation logic made it highly compatible
+        with this technique.
 
     \markboth{}{}
     \subsubsection{Weaknesses of Equivalence Class Testing BufferedImageBuilder.java}
