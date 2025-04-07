@@ -31,6 +31,10 @@ import org.mockito.Mockito;
 
 public class Tester {
 
+    /*
+    Tests for BufferedImageBuilder.java
+     */
+
     @Test
     public void TestConstructors() {
 
