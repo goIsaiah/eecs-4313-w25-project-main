@@ -1,0 +1,21 @@
+\contentsline {section}{\numberline {1}Introduction}{1}{section.1}%
+\contentsline {section}{\numberline {2}Testing Methods}{1}{section.2}%
+\contentsline {subsection}{\numberline {2.1}ThumbnailatorUtils.java}{1}{subsection.2.1}%
+\contentsline {subsubsection}{\numberline {2.1.1}Equivalence Class Testing for ThumbnailatorUtils.java}{1}{subsubsection.2.1.1}%
+\contentsline {subsubsection}{\numberline {2.1.2}Weaknesses of Equivalence Class Testing ThumbnailatorUtils.java}{2}{subsubsection.2.1.2}%
+\contentsline {subsection}{\numberline {2.2}BufferedImageBuilder.java}{3}{subsection.2.2}%
+\contentsline {subsubsection}{\numberline {2.2.1}Equivalence Class Testing for BufferedImageBuilder.java}{3}{subsubsection.2.2.1}%
+\contentsline {subsubsection}{\numberline {2.2.2}Weaknesses of Equivalence Class Testing BufferedImageBuilder.java}{3}{subsubsection.2.2.2}%
+\contentsline {section}{\numberline {3}Testing Results}{4}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Testing Results of ThumbnailatorUtils.java}{4}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Refactoring Suggestions for ThumbnailatorUtils.java}{6}{subsection.3.2}%
+\contentsline {subsubsection}{\numberline {3.2.1}Redundant Conditions}{6}{subsubsection.3.2.1}%
+\contentsline {subsubsection}{\numberline {3.2.2}Non-Null API Assumption}{7}{subsubsection.3.2.2}%
+\contentsline {subsection}{\numberline {3.3}Testing Results of BufferedImageBuilder.java}{7}{subsection.3.3}%
+\contentsline {section}{\numberline {4}Use of Generative AI}{8}{section.4}%
+\contentsline {subsection}{\numberline {4.1}AI Assistance for ThumbnailatorUtils.java}{9}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}AI Assistance for BufferedImageBuilder.java}{9}{subsection.4.2}%
+\contentsline {section}{\numberline {5}Conclusion}{9}{section.5}%
+\contentsline {part}{Appendices}{11}{part*.7}%
+\contentsline {section}{Appendix \numberline {A}Bug Report for isSupportedOutputFormatType Method of ThumbnailatorUtils Class}{12}{appendix.1.A}%
+\contentsline {section}{Appendix \numberline {B}Bug Report for getSupportedOutputFormats Method of ThumbnailatorUtils Class}{13}{appendix.1.B}%
